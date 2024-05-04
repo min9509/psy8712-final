@@ -19,12 +19,15 @@ library(e1071)
 ### Data Import and Cleaning
 This chunk is to import the original data.
 ```{r import date}
+# Import the original data.
 Wave2_original_tbl <- read_tsv("../data/HCCP_2ndWave_Work_2nd.txt")
+# Display tables
 print(Wave2_original_tbl)
 ```
 
 This chunk is to clean the original data.
 ```{r cleaning date}
+# Making cleaning data.
 Wave2_tbl <- Wave2_original_tbl %>%
   select(W21Q26A, W21Q26B, W21Q26C, W21Q25D, W21Q25E, W21Q25F, W21DQ01, W21DQ03, W21Q28) %>%
   rowwise() %>%
@@ -34,6 +37,7 @@ Wave2_tbl <- Wave2_original_tbl %>%
   mutate(marital = factor(W21DQ03, levels = c("1", "2", "3"), labels = c("Single", "Married", "Divorced/Widowed")))  %>%
   mutate(permanent = factor(W21DQ01, levels = c("1", "2"), labels = c("Permanent", "Temporary")))
 
+# Display tables
 print(Wave2_tbl)
 ```
 
@@ -56,7 +60,7 @@ marital_div_wid <- sum(Wave2_tbl$marital == "Divorced/Widowed")
 permanent_p <- sum(Wave2_tbl$permanent == "Permanent")
 permanent_t <- sum(Wave2_tbl$permanent == "Temporary")
 
-
+# Display numbers
 print(gender_female)
 print(gender_male)
 print(marital_single)
@@ -69,20 +73,25 @@ print(permanent_t)
 ## (2) Correlation
 This chunk is to conduct the correlation.
 ```{r analysis}
-cor.test(Wave2_tbl$job_satis, Wave2_tbl$clan_culture)
+# conduct correlation
+wave2_corr <- cor.test(Wave2_tbl$job_satis, Wave2_tbl$clan_culture)
+
+# Display skewness and kurtosis
+print(wave2_corr)
 ```
 
 ### Visualization
 ## (1) Histogram
 This chunk is to create histograms for Job satisfaction and Clan culture.
 ```{r histogram}
-# Making the histograms
+# Making the histogram forjob satisfaction
 job_satis_his <- ggplot(Wave2_tbl, aes(x = job_satis)) +
   geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
   labs(title = "The Histogram of Job Satisfaction",
        x = "Job Satisfaction",
        y = "Frequency")
 
+# Making the histogram for clan culture
 clan_culture_his <- ggplot(Wave2_tbl, aes(x = clan_culture)) +
   geom_histogram(binwidth = 0.5, fill = "lightgreen", color = "black") +
   labs(title = "The Histogram of Clan Culture",
@@ -99,6 +108,7 @@ kurt_job_satis <- kurtosis(Wave2_tbl$job_satis)
 skews_clan_culture <- skewness(Wave2_tbl$clan_culture)
 kurt_clan_culture <- kurtosis(Wave2_tbl$clan_culture)
 
+# Display skewness and kurtosis
 print(skew_job_satis)
 print(kurt_job_satis)
 print(skews_clan_culture)
@@ -108,7 +118,7 @@ print(kurt_clan_culture)
 ## (2) Scatter Plot
 This chunk is to make the scatter plot with the smooth line. 
 ```{r scatter}
-# Make
+# Make the scatter plot with lm line
 Wave2_tbl %>%
   ggplot(aes(x = clan_culture, y = job_satis)) +
   geom_point() +
@@ -121,6 +131,7 @@ Wave2_tbl %>%
 # **Data Export**
 This chunk is to export data. 
 ```{r export}
+# export data for shiny app
 Wave2_tbl %>% 
   saveRDS(file = "../shiny_final/final_data.rds")
 ```
