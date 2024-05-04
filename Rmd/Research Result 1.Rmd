@@ -38,13 +38,14 @@ print(Wave2_tbl)
 ```
 
 ### Analysis
-## (1) Descriptive statistics
+## (1) Descriptive Statistics
 This chunk is to conduct the descriptive statistics.
 ```{r descriptive statistics}
 # Get Numerical variables 
 Wave2_tbl_N <- Wave2_tbl %>%
   select(job_satis, clan_culture) %>%
   summary()
+print(Wave2_tbl_N)
 
 # Count the number of variables
 gender_female <- sum(Wave2_tbl$gender == "Female") 
@@ -54,6 +55,19 @@ marital_married <- sum(Wave2_tbl$marital == "Married")
 marital_div_wid <- sum(Wave2_tbl$marital == "Divorced/Widowed")
 permanent_p <- sum(Wave2_tbl$permanent == "Permanent")
 permanent_t <- sum(Wave2_tbl$permanent == "Temporary")
+
+print(gender_female)
+print(gender_male)
+print(marital_single)
+print(marital_married)
+print(marital_div_wid)
+print(permanent_p)
+print(permanent_t)
+```
+
+## (2) Correlation
+```{r analysis}
+cor.test(Wave2_tbl$job_satis, Wave2_tbl$clan_culture)
 ```
 
 ### Visualization
@@ -82,6 +96,20 @@ skew_job_satis <- skewness(Wave2_tbl$job_satis)
 kurt_job_satis <- kurtosis(Wave2_tbl$job_satis)
 skews_clan_culture <- skewness(Wave2_tbl$clan_culture)
 kurt_clan_culture <- kurtosis(Wave2_tbl$clan_culture)
+
+print(skew_job_satis)
+print(kurt_job_satis)
+print(skews_clan_culture)
+print(kurt_clan_culture)
 ```
 
-## (2) Scatter plot
+## (2) Scatter Plot
+```{r scatter}
+Wave2_tbl %>%
+  ggplot(aes(x = clan_culture, y = job_satis)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#c62f4b")+
+  labs(title = "The Scatter Plot of Clan Culture & Job Satisfaction",
+       x = "Average of Clan Culture", 
+       y = "Average of Job Satisfaction")
+```

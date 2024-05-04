@@ -359,12 +359,12 @@ display: none;
 
 <div id="script-settings-and-resources" class="section level3">
 <h3>Script Settings and Resources</h3>
-<p>Suppress all output from a chunk but display a copy of the executed
-code.</p>
+<p>This chunk is to suppress all output from a chunk but display a copy
+of the executed code.</p>
 </div>
 <div id="data-import-and-cleaning" class="section level3">
 <h3>Data Import and Cleaning</h3>
-<p>ADD COMMENT</p>
+<p>This chunk is to import the original data.</p>
 <pre class="r"><code>Wave2_original_tbl &lt;- read_tsv(&quot;../data/HCCP_2ndWave_Work_2nd.txt&quot;)</code></pre>
 <pre><code>## Rows: 9516 Columns: 141
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -395,7 +395,7 @@ code.</p>
 ## #   W21Q062D &lt;dbl&gt;, W21Q07 &lt;dbl&gt;, W21Q081A &lt;dbl&gt;, W21Q081B &lt;dbl&gt;,
 ## #   W21Q081C &lt;dbl&gt;, W21Q081D &lt;dbl&gt;, W21Q081E &lt;dbl&gt;, W21Q082A &lt;dbl&gt;,
 ## #   W21Q082B &lt;dbl&gt;, W21Q082C &lt;dbl&gt;, W21Q082D &lt;dbl&gt;, W21Q082E &lt;dbl&gt;, …</code></pre>
-<p>ADD COMMENT</p>
+<p>This chunk is to clean the original data.</p>
 <pre class="r"><code>Wave2_tbl &lt;- Wave2_original_tbl %&gt;%
   select(W21Q26A, W21Q26B, W21Q26C, W21Q25D, W21Q25E, W21Q25F, W21DQ01, W21DQ03, W21Q28) %&gt;%
   rowwise() %&gt;%
@@ -428,28 +428,51 @@ print(Wave2_tbl)</code></pre>
 <h3>Analysis</h3>
 </div>
 <div id="descriptive-statistics" class="section level2">
-<h2>(1) Descriptive statistics</h2>
-<p>ADD COMMENT</p>
+<h2>(1) Descriptive Statistics</h2>
+<p>This chunk is to conduct the descriptive statistics.</p>
 <pre class="r"><code># Get Numerical variables 
 Wave2_tbl_N &lt;- Wave2_tbl %&gt;%
   select(job_satis, clan_culture) %&gt;%
   summary()
-
-# Count the number of variables
+print(Wave2_tbl_N)</code></pre>
+<pre><code>##    job_satis      clan_culture  
+##  Min.   :1.000   Min.   :1.000  
+##  1st Qu.:3.000   1st Qu.:3.000  
+##  Median :3.333   Median :3.333  
+##  Mean   :3.447   Mean   :3.350  
+##  3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :5.000</code></pre>
+<pre class="r"><code># Count the number of variables
 gender_female &lt;- sum(Wave2_tbl$gender == &quot;Female&quot;) 
 gender_male &lt;- sum(Wave2_tbl$gender == &quot;Male&quot;)
 marital_single &lt;- sum(Wave2_tbl$marital == &quot;Single&quot;)
 marital_married &lt;- sum(Wave2_tbl$marital == &quot;Married&quot;)
 marital_div_wid &lt;- sum(Wave2_tbl$marital == &quot;Divorced/Widowed&quot;)
 permanent_p &lt;- sum(Wave2_tbl$permanent == &quot;Permanent&quot;)
-permanent_t &lt;- sum(Wave2_tbl$permanent == &quot;Temporary&quot;)</code></pre>
+permanent_t &lt;- sum(Wave2_tbl$permanent == &quot;Temporary&quot;)
+
+print(gender_female)</code></pre>
+<pre><code>## [1] 2677</code></pre>
+<pre class="r"><code>print(gender_male)</code></pre>
+<pre><code>## [1] 6839</code></pre>
+<pre class="r"><code>print(marital_single)</code></pre>
+<pre><code>## [1] 4115</code></pre>
+<pre class="r"><code>print(marital_married)</code></pre>
+<pre><code>## [1] 5294</code></pre>
+<pre class="r"><code>print(marital_div_wid)</code></pre>
+<pre><code>## [1] 107</code></pre>
+<pre class="r"><code>print(permanent_p)</code></pre>
+<pre><code>## [1] 6839</code></pre>
+<pre class="r"><code>print(permanent_t)</code></pre>
+<pre><code>## [1] 2677</code></pre>
 <div id="visualization" class="section level3">
 <h3>Visualization</h3>
 </div>
 </div>
 <div id="histogram" class="section level2">
 <h2>(1) Histogram</h2>
-<p>Create histograms for Job satisfaction and Clan culture</p>
+<p>This chunk is to create histograms for Job satisfaction and Clan
+culture.</p>
 <pre class="r"><code># Making the histograms
 job_satis_his &lt;- ggplot(Wave2_tbl, aes(x = job_satis)) +
   geom_histogram(binwidth = 0.5, fill = &quot;skyblue&quot;, color = &quot;black&quot;) +
@@ -475,7 +498,7 @@ skews_clan_culture &lt;- skewness(Wave2_tbl$clan_culture)
 kurt_clan_culture &lt;- kurtosis(Wave2_tbl$clan_culture)</code></pre>
 </div>
 <div id="scatter-plot" class="section level2">
-<h2>(2) Scatter plot</h2>
+<h2>(2) Scatter Plot</h2>
 </div>
 
 
