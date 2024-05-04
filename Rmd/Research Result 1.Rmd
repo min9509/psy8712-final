@@ -9,25 +9,37 @@ knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = en
 ---
 
 ### Script Settings and Resources
-This chunk is to suppress all output from a chunk but display a copy of the executed code.
+This chunk is to suppress all output from a chunk but does not display a copy of the executed code.
 ```{r setup, include=FALSE}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
 library(e1071)
+library(GGally)
 ```
 
 ### Data Import and Cleaning
 This chunk is to import the original data.
-```{r import date}
+```{r import date, message=FALSE, warning=FALSE}
 # Import the original data.
 Wave2_original_tbl <- read_tsv("../data/HCCP_2ndWave_Work_2nd.txt")
 # Display tables
 print(Wave2_original_tbl)
 ```
+This chunk is to create a data frame with the variables and their codes
+```{r code table, message=FALSE, warning=FALSE}
+# Create the table to explain variables and code
+variable_table <- data.frame(
+  Variables = c("Job satisfaction (DV)", "Clan culture (IV)", "Gender", "Marital Status", "Permanent Employment"),
+  Code = c("W21Q26A, W21Q26B, W21Q26C", "W21Q25D, W21Q25E, W21Q25F", "W21DQ01", "W21DQ03", "W21Q28")
+)
+
+# Display table
+print(variable_table)
+```
 
 This chunk is to clean the original data.
-```{r cleaning date}
-# Making cleaning data.
+```{r cleaning date, message=FALSE, warning=FALSE}
+# Making cleaning data
 Wave2_tbl <- Wave2_original_tbl %>%
   select(W21Q26A, W21Q26B, W21Q26C, W21Q25D, W21Q25E, W21Q25F, W21DQ01, W21DQ03, W21Q28) %>%
   rowwise() %>%
@@ -44,12 +56,23 @@ print(Wave2_tbl)
 ### Analysis
 ## (1) Descriptive Statistics
 This chunk is to conduct the descriptive statistics.
-```{r descriptive statistics}
+```{r descriptive statistics, message=FALSE, warning=FALSE}
 # Get Numerical variables 
 Wave2_tbl_N <- Wave2_tbl %>%
   select(job_satis, clan_culture) %>%
   summary()
-print(Wave2_tbl_N)
+
+# Create a data frame with the variables and their statistics
+Wave2_tbl_N2 <- data.frame(
+  Variables = c("Job satisfaction (DV)", "Clan culture (IV)"),
+  Mean = c(3.447, 3.350),
+  Median = c(3.333, 3.333),
+  Min = c(1.000, 1.000),
+  Max = c(5.000, 5.000)
+)
+
+# Print the table
+print(Wave2_tbl_N2)
 
 # Count the number of variables
 gender_female <- sum(Wave2_tbl$gender == "Female") 
@@ -60,30 +83,38 @@ marital_div_wid <- sum(Wave2_tbl$marital == "Divorced/Widowed")
 permanent_p <- sum(Wave2_tbl$permanent == "Permanent")
 permanent_t <- sum(Wave2_tbl$permanent == "Temporary")
 
+# Create a data frame with the variables and their statistics
+Wave2_tbl_C <- data.frame(
+  Variables = c("Gender", "", "Marital Status", "", "", "Permanent Employment", ""),
+  Category = c("Male", "Female", "Single", "Married", "Divorced/Widowed", "Permanent", "Temporary"),
+  N = c(gender_male, gender_female, marital_single, marital_married, marital_div_wid, permanent_p, permanent_t),
+  Total = c("", sum(gender_male, gender_female), "", "", sum(marital_single, marital_married, marital_div_wid), "", sum(permanent_p, permanent_t))
+)
+
 # Display numbers
-print(gender_female)
-print(gender_male)
-print(marital_single)
-print(marital_married)
-print(marital_div_wid)
-print(permanent_p)
-print(permanent_t)
+print(Wave2_tbl_C)
 ```
 
-## (2) Correlation
+## (2) Correlation and Regression
 This chunk is to conduct the correlation.
-```{r analysis}
-# conduct correlation
+```{r analysis, message=FALSE, warning=FALSE}
+# Conduct correlation
 wave2_corr <- cor.test(Wave2_tbl$job_satis, Wave2_tbl$clan_culture)
 
-# Display skewness and kurtosis
+# Display correlation
 print(wave2_corr)
+
+# Conduct regression
+lm.a = lm(job_satis ~ 1 + clan_culture, data = Wave2_tbl)
+
+# Display regression
+print(lm.a)
 ```
 
 ### Visualization
 ## (1) Histogram
 This chunk is to create histograms for Job satisfaction and Clan culture.
-```{r histogram}
+```{r histogram, message=FALSE, warning=FALSE}
 # Making the histogram forjob satisfaction
 job_satis_his <- ggplot(Wave2_tbl, aes(x = job_satis)) +
   geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
@@ -102,22 +133,29 @@ clan_culture_his <- ggplot(Wave2_tbl, aes(x = clan_culture)) +
 print(job_satis_his)
 print(clan_culture_his)
 
+# Save the charts
+job_satis_his %>% ggsave(filename = "../figs/Fig1.png")
+clan_culture_his %>% ggsave(filename = "../figs/Fig2.png")
+
 # Calculate skewness and kurtosis for job_satis and clan_culture
 skew_job_satis <- skewness(Wave2_tbl$job_satis)
 kurt_job_satis <- kurtosis(Wave2_tbl$job_satis)
 skews_clan_culture <- skewness(Wave2_tbl$clan_culture)
 kurt_clan_culture <- kurtosis(Wave2_tbl$clan_culture)
 
+# Create a data frame with the variables and their statistics
+Wave2_tbl_N3 <- data.frame(
+  Variables = c("Job satisfaction (DV)", "Clan culture (IV)"),
+  Skewness = c(skew_job_satis, skews_clan_culture),
+  Kurtosis = c(kurt_job_satis, kurt_clan_culture))
+  
 # Display skewness and kurtosis
-print(skew_job_satis)
-print(kurt_job_satis)
-print(skews_clan_culture)
-print(kurt_clan_culture)
+print(Wave2_tbl_N3)
 ```
 
 ## (2) Scatter Plot
 This chunk is to make the scatter plot with the smooth line. 
-```{r scatter}
+```{r scatter, message=FALSE, warning=FALSE}
 # Make the scatter plot with lm line
 Wave2_tbl %>%
   ggplot(aes(x = clan_culture, y = job_satis)) +
@@ -130,7 +168,7 @@ Wave2_tbl %>%
 
 # **Data Export**
 This chunk is to export data. 
-```{r export}
+```{r export, message=FALSE, warning=FALSE}
 # export data for shiny app
 Wave2_tbl %>% 
   saveRDS(file = "../shiny_final/final_data.rds")
