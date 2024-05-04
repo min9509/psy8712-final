@@ -30,18 +30,18 @@ ui <- fluidPage(
 server = function(input, output){
   # Input: Load RDS file making rmd file
   shinyapp_data <- readRDS("final_data.rds")
-  # Output: By using the if function, when users select gender, app shows marital status according they selected.
+  # Output: By using the if function, when users select gender, app shows results.
   output$plot <- renderPlot({
     if(input$gender == c("Male") | input$gender == c("Female")) { 
       shinyapp_data <- shinyapp_data %>% 
         filter(gender == input$gender)
     } 
-    # By using the if function, when users select marital status, app shows marital status according they selected.
+    # By using the if function, when users select marital status, app shows results.
     if(input$marital == c("Single") | input$marital == c("Married") | input$marital == c("Divorced/Widowed")) { 
       shinyapp_data <- shinyapp_data %>% 
         filter(marital == input$marital)
     } 
-    # By using the if function, when users select marital status, app shows marital status according they selected.
+    # By using the if function, when users select job status, app shows results.
     if(input$permanent == c("Permanent") | input$permanent == c("Temporary")) { 
       shinyapp_data <- shinyapp_data %>% 
         filter(permanent == input$permanent)
