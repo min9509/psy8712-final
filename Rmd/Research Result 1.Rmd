@@ -56,6 +56,7 @@ marital_div_wid <- sum(Wave2_tbl$marital == "Divorced/Widowed")
 permanent_p <- sum(Wave2_tbl$permanent == "Permanent")
 permanent_t <- sum(Wave2_tbl$permanent == "Temporary")
 
+
 print(gender_female)
 print(gender_male)
 print(marital_single)
@@ -66,6 +67,7 @@ print(permanent_t)
 ```
 
 ## (2) Correlation
+This chunk is to conduct the correlation.
 ```{r analysis}
 cor.test(Wave2_tbl$job_satis, Wave2_tbl$clan_culture)
 ```
@@ -104,7 +106,9 @@ print(kurt_clan_culture)
 ```
 
 ## (2) Scatter Plot
+This chunk is to make the scatter plot with the smooth line. 
 ```{r scatter}
+# Make
 Wave2_tbl %>%
   ggplot(aes(x = clan_culture, y = job_satis)) +
   geom_point() +
@@ -112,4 +116,11 @@ Wave2_tbl %>%
   labs(title = "The Scatter Plot of Clan Culture & Job Satisfaction",
        x = "Average of Clan Culture", 
        y = "Average of Job Satisfaction")
+```
+
+# **Data Export**
+This chunk is to export data. 
+```{r export}
+Wave2_tbl %>% 
+  saveRDS(file = "../shiny_final/final_data.rds")
 ```
