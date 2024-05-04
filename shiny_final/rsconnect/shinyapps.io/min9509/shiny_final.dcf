@@ -1,0 +1,12 @@
+name: shiny_final
+title: shiny_final
+username: min9509
+account: min9509
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11935148
+bundleId: 8576496
+url: https://min9509.shinyapps.io/shiny_final/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
