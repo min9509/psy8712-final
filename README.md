@@ -25,10 +25,12 @@ The below is main variables and their code in the data.
 ### (1) Research Results 1
 - **Descriptive Statistics:** I employed descriptive statistics techniques to analyze the dataset, extracting key metrics such as the mean, mode, minimum, and maximum values for numerical variables (e.g., job satisfaction, clan culture) using the summary function. Additionally, I generated histograms and calculated skewness and kurtosis to assess the normal distribution of the data. Furthermore, I determined the frequency counts for categorical variables using sum functions.
 - **Correlation & Regression:** I conducted correlation and regression analyses to validate the relationships and probabilities, employing the cor.test and lm functions. The findings indicate significant relationships, with independent variables significantly impacting dependent variables. Additionally, I added the scatter plot between IV and DV with the regression line.
-- **Shiny app: ** Finally, I developed a Shiny app to generate scatter plots with controlled variables (Gender, Maritual status, and Permanent employment), aimed at enhancing readers' comprehension of the data.
+- **Shiny app:** Finally, I developed a Shiny app to generate scatter plots with controlled variables (Gender, Maritual status, and Permanent employment), aimed at enhancing readers' comprehension of the data.
 
 ### (2) Research Results 2
 
 ## Conclusion
 
-## Web-based binder and Docs
+## Web-based binder
+URL: https://mybinder.org/v2/gh/min9509/psy8712-final.git/HEAD
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/min9509/psy8712-final.git/HEAD)
