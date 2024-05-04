@@ -1,34 +1,87 @@
 ---
-title: "Research Result 1 (Shiny app)"
+title: "Research Result 1: Shinyapp"
 author: "Minjeong Seo"
 date: "`r Sys.Date()`"
 output: 
-  html_document:
     html_document:
     df_print: paged
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../out") })
 ---
 
+### Script Settings and Resources
+This chunk is to suppress all output from a chunk but display a copy of the executed code.
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+library(tidyverse)
+library(e1071)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+### Data Import and Cleaning
+This chunk is to import the original data.
+```{r import date}
+Wave2_original_tbl <- read_tsv("../data/HCCP_2ndWave_Work_2nd.txt")
+print(Wave2_original_tbl)
 ```
 
-## Including Plots
+This chunk is to clean the original data.
+```{r cleaning date}
+Wave2_tbl <- Wave2_original_tbl %>%
+  select(W21Q26A, W21Q26B, W21Q26C, W21Q25D, W21Q25E, W21Q25F, W21DQ01, W21DQ03, W21Q28) %>%
+  rowwise() %>%
+  mutate(job_satis = mean(c(W21Q26A, W21Q26B, W21Q26C))) %>%
+  mutate(clan_culture = mean(c(W21Q25D, W21Q25E, W21Q25F))) %>%
+  mutate(gender = factor(W21DQ01, levels = c("1", "2"), labels = c("Male", "Female"))) %>%
+  mutate(marital = factor(W21DQ03, levels = c("1", "2", "3"), labels = c("Single", "Married", "Divorced/Widowed")))  %>%
+  mutate(permanent = factor(W21DQ01, levels = c("1", "2"), labels = c("Permanent", "Temporary")))
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+print(Wave2_tbl)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Analysis
+## (1) Descriptive statistics
+This chunk is to conduct the descriptive statistics.
+```{r descriptive statistics}
+# Get Numerical variables 
+Wave2_tbl_N <- Wave2_tbl %>%
+  select(job_satis, clan_culture) %>%
+  summary()
+
+# Count the number of variables
+gender_female <- sum(Wave2_tbl$gender == "Female") 
+gender_male <- sum(Wave2_tbl$gender == "Male")
+marital_single <- sum(Wave2_tbl$marital == "Single")
+marital_married <- sum(Wave2_tbl$marital == "Married")
+marital_div_wid <- sum(Wave2_tbl$marital == "Divorced/Widowed")
+permanent_p <- sum(Wave2_tbl$permanent == "Permanent")
+permanent_t <- sum(Wave2_tbl$permanent == "Temporary")
+```
+
+### Visualization
+## (1) Histogram
+This chunk is to create histograms for Job satisfaction and Clan culture.
+```{r histogram}
+# Making the histograms
+job_satis_his <- ggplot(Wave2_tbl, aes(x = job_satis)) +
+  geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
+  labs(title = "The Histogram of Job Satisfaction",
+       x = "Job Satisfaction",
+       y = "Frequency")
+
+clan_culture_his <- ggplot(Wave2_tbl, aes(x = clan_culture)) +
+  geom_histogram(binwidth = 0.5, fill = "lightgreen", color = "black") +
+  labs(title = "The Histogram of Clan Culture",
+       x = "Clan Culture",
+       y = "Frequency")
+
+# Display the histograms
+print(job_satis_his)
+print(clan_culture_his)
+
+# Calculate skewness and kurtosis for job_satis and clan_culture
+skew_job_satis <- skewness(Wave2_tbl$job_satis)
+kurt_job_satis <- kurtosis(Wave2_tbl$job_satis)
+skews_clan_culture <- skewness(Wave2_tbl$clan_culture)
+kurt_clan_culture <- kurtosis(Wave2_tbl$clan_culture)
+```
+
+## (2) Scatter plot
