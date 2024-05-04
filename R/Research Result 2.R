@@ -110,7 +110,7 @@ ho_rsq_XGB <- cor(XGB_predict, Wave2_test$job_satis)^2
 #### Publication #### 
 # Create a tibble with the desired structure
 table1_tbl <- tibble(
-  algo = c("OLS Regression", "Elastic Net", "Random Forest", "eXtreme Gradient Boosting"),
+  Algo = c("OLS Regression", "Elastic Net", "Random Forest", "eXtreme Gradient Boosting"),
   cv_rsq = c(
     format(model_OLS$results$Rsquared, nsmall = 7),
     format(max(model_elastic$results$Rsquared), nsmall = 7),
