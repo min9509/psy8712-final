@@ -34,8 +34,8 @@ The below is main variables and their code in the data.
 - **Interpretation:** According to the tests, the results between models varied slightly, with OLS Regression achieving the highest R-squared values for both cross-validated (CV) and holdout sets. This could be due to OLS Regression being a simpler linear model that might fit the data well if the underlying relationship is linear. 
 
 ## Conclusion
-**Answer 1:** A significant, positive, and strong relationship is evident between the Clan culture and Job satisfaction. This association indicates that a one-unit difference in clan culture corresponds to a model-predicted difference of 0.526 in mean job satisfaction. Therefore, this hypothesis model is well-suited for conducting advanced studies.
-**Answer 2** The results across different models varied slightly. The Ordinary Least Squares (OLS) Regression and Elastic Net models both exhibited high R-squared values, indicating strong predictive power for the data. For the main research, I will chooes OLS model and  the Elastic Net model. 
+- **Answer 1:** A significant, positive, and strong relationship is evident between the Clan culture and Job satisfaction. This association indicates that a one-unit difference in clan culture corresponds to a model-predicted difference of 0.526 in mean job satisfaction. Therefore, this hypothesis model is well-suited for conducting advanced studies.
+- **Answer 2** The results across different models varied slightly. The Ordinary Least Squares (OLS) Regression and Elastic Net models both exhibited high R-squared values, indicating strong predictive power for the data. For the main research, I will chooes OLS model and  the Elastic Net model. 
 
 ## Web-based binder
 Here is the web-based biner to democratize access to my analysis, promote reproducibility and collaboration, facilitate sharing and publishing.[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/min9509/psy8712-final.git/HEAD)
