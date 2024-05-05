@@ -2,7 +2,7 @@
 Final Project
 
 ## Research Preview
-###  (1) The Purpose
+###  (1) Purpose
 The project aims to finding the existence of these relationships, confirming control variables and identifying the most suitable analytical models as a first step. Accordingly, this project explores an Ordinary Least Squares (OLS) model alongside various machine learning models to determine the actual relationships and find the most appropriate model. Additionally, a Shiny application has been developed to aid in comprehending the outcomes of this study.
 
 **Research Questions**
@@ -26,7 +26,7 @@ The below is main variables and their code in the data.
 - **Marital status**: W21DQ03
 - **Permanent employment**: W21Q28
 
-## Research Results
+## Research Process and Results
 ### (1) Research Results 1 (for question 1 and 2)
 - **File direction:** Research Results 1 in the RMD file and app in the shiny_final file
 - **Order:** (1) RMD: Import and Cleaning Data > Run descriptive statistics > Make histograms > Correlation and Regression > Export rds file (for running shinyapp) (2) Shiny app: Importing data > Make options > Make input (user selection) and output 
@@ -40,6 +40,13 @@ The below is main variables and their code in the data.
 -  **Order:** Import data > Cleaning data > Make test variables > Run Test > Get R-square
 - **Machine Learning:** To identify the optimal models, I conducted training on four different models: the OLS model, Elastic Net model, Random Forest model, and XGB model. Subsequently, I obtained their respective 10-fold cross-validation R squared values, as well as the final holdout cross-validation R squared value.
 - **Interpretation:** According to the tests, the results between models varied slightly, with OLS Regression achieving the highest R-squared values for both cross-validated (CV) and holdout sets. This could be due to OLS Regression being a simpler linear model that might fit the data well if the underlying relationship is linear. 
+
+### (3) Files
+- data: Original data
+- docs: Project Writing (words)
+- figs: Output for histograms
+- out: HTML for RMD
+- shiny_fianl: shiny app results
 
 ## Reflection
 - **Answer 1:** A significant, positive, and strong relationship is evident between the Clan culture and Job satisfaction. This association indicates that a one-unit difference in clan culture corresponds to a model-predicted difference of 0.526 in mean job satisfaction. Therefore, this hypothesis model is well-suited for conducting advanced studies.
